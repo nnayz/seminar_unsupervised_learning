@@ -1,0 +1,118 @@
+\documentclass[blockverticalspace=10mm]{tikzposter}
+
+\usepackage{postersp}
+
+\title{\shortstack{Signal Processing Poster Template\\%
+    Just a second line in the title}}
+\author{Robert Rehr}
+\institute{Signal Processing (SP), Universität Hamburg, Germany}
+\email{robert.rehr@uni-hamburg.de}
+
+\newcommand{\myemph}[1]{\textcolor{red}{#1}}
+
+\newcommand{\SimpleHeading}[1]{{\vspace{0.3em}\Large\sffamily\bfseries \textcolor{uhhRed}{#1}}}
+
+% set bibliography
+\addbibresource{bibliography/Bibliography.bib}
+
+\begin{document}
+    \maketitle
+
+    \begin{columns}
+    \column{0.5}
+
+    \block{I. Introduction}{%
+        \begin{itemize}
+            \item[\cmark] This is the SP poster template
+            \item[\cmark] Always cite Timo~\cite{gerkmann_bayesian_2014, gerkmann_improved_2008, gerkmann_noise_2011}
+        \end{itemize}
+    }
+
+    \block{Inner blocks}{%
+        \innerblock{Inner Block}{These blocks look like this}
+        \vspace{1cm}
+        \coloredbox{This is a colored box}
+    }
+
+    \block{II. Notes}{%
+        \begin{itemize}
+            \item This is a demonstration on how notes look like
+        \end{itemize}
+    }
+    \note[angle=-15, targetoffsetx=4cm, rotate=2]{This the content of the note.}
+
+    \block{III. Columns within a block}{%
+        \begin{itemize}
+            \item Columns with a block
+            \item[\cmark] The good
+            \item[\xmark] The bad
+            \item[\color{uhhstone}\filledrightarrow] The arrow 
+        \end{itemize}
+        \begin{multicols}{2}
+            \begin{itemize}
+                \item first
+                    \begin{itemize}
+                        \item second
+                            \begin{itemize}
+                                \item third
+                            \end{itemize}
+                    \end{itemize}
+            \end{itemize}
+            \columnbreak%
+            \begin{enumerate}
+                \item first
+                    \begin{enumerate}
+                        \item second
+                            \begin{enumerate}
+                                \item third
+                            \end{enumerate}
+                    \end{enumerate}
+            \end{enumerate}
+    \end{multicols}
+    }
+
+    \column{0.5}
+    \block{}{%
+        \begin{itemize}
+            \item Block without header
+        \end{itemize}
+    }
+
+    \begin{subcolumns}
+        \subcolumn{.6}
+        \block{Left Subcolumn}{%
+            \begin{itemize}
+                \item Left column
+            \end{itemize}
+        }
+        \subcolumn{.4}
+        \block{Right Subcolumn}{%
+            \begin{itemize}
+                \item Right column
+            \end{itemize}
+        }
+    \end{subcolumns}
+
+    \block{IV. Experimental Results}{%
+
+
+    }
+
+    \block{V. Conclusions}{%
+
+    }
+
+\makeatletter
+\node[above right,inner sep=10pt,outer xsep=\TP@colspace, font=\Large, text width=0.48\TP@visibletextwidth] at (0,-59) (references) {%
+    \AtNextBibliography{\small} 
+    \printbibliography[heading=none]
+};
+\makeatother
+
+\end{columns}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

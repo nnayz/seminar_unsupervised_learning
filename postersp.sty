@@ -1,0 +1,286 @@
+% Based on:
+%-----------------------------------------------------------------------------
+% uhhPoster.sty
+%
+% Author:	Andreas Mäder
+%		Universität Hamburg
+%		MIN-Fakultät
+%		Fachbereich Informatik, AB TAMS
+%		Vogt-Kölln-Straße 30
+%		22527 Hamburg
+%
+%		Tel.:	040 42883-2502
+%		Fax.:	040 42883-2397
+%		e-mail:	maeder@informatik.uni-hamburg.de
+%-----------------------------------------------------------------------------
+%
+%-- info	--------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{postersp}[2020/08/21 Signal Processing 'tikzposter' Style]
+
+%-----------------------------------------------------------------------------
+% -- shared packages --
+\RequirePackage{sharedsp}
+
+% -- extra packages	------------------------------------------------------
+\RequirePackage{fancybox}
+\RequirePackage{multicol}
+
+\RequirePackage{microtype}
+
+% -- encoding and language --
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% biblatex
+\RequirePackage{csquotes}
+\RequirePackage[style=ieee,
+    isbn=false,
+    doi=false,
+    url=false,
+    backend=biber]{biblatex}
+
+
+%-----------------------------------------------------------------------------
+%-- options		------------------------------------------------------
+%
+\ProcessOptions
+
+% some tests with tikzposter
+%-----------------------------------------------------------------------------
+%\documentclass[25pt, a0paper, portrait, margin=0mm, innermargin=15mm,
+%     blockverticalspace=15mm, colspace=15mm, subcolspace=8mm]{tikzposter}
+
+%\usetheme{Default}
+%	Default Rays Basic Simple Envelope Wave Board Autumn Desert
+
+%\usecolorstyle{Default}
+%\usecolorstyle[colorPalette=BrownBlueOrange]{Germany}
+%	Default BlueGrayOrange GreenGrayViolet PurpleGrayBlue BrownBlueOrange
+%	Default	Australia Britain Sweden Spain Russia Denmark Germany
+
+%\usebackgroundstyle{VerticalGradation}
+%	Default Rays VerticalGradation BottomVerticalGradation Empty
+
+%\usetitlestyle{Default}
+%	Default Basic Envelope Wave VerticalShading Filled Empty
+
+%\useblockstyle{Slide}
+%	Default Basic Minimal Envelope Corner Slide TornOut
+
+%\useinnerblockstyle{Slide}
+%	Default Table Basic Minimal Envelope Corner Slide TornOut
+
+%\usenotestyle{VerticalShading}
+%	Default Corner VerticalShading Sticky
+
+% colorstyle		--------------------------------------------------------
+% Background Colors
+\colorlet{backgroundcolor}{uhhstone!10!white}	% not used
+\colorlet{framecolor}{uhhblue}			% not used
+% Title Colors
+\colorlet{titlefgcolor}{black}
+\colorlet{titlebgcolor}{uhhblue!10!white}	% not used
+% Block Colors
+%\colorlet{blocktitlebgcolor}{uhhstone}
+\colorlet{blocktitlebgcolor}{uhhstone}
+\colorlet{blocktitlefgcolor}{white}
+\colorlet{blockbodybgcolor}{white}
+\colorlet{blockbodyfgcolor}{black}
+% Innerblock Colors
+\colorlet{innerblocktitlebgcolor}{uhhstone!10!white}
+\colorlet{innerblocktitlefgcolor}{black}
+\colorlet{innerblockbodybgcolor}{white}
+\colorlet{innerblockbodyfgcolor}{black}
+% Note colors
+\colorlet{notefgcolor}{black}
+\colorlet{notebgcolor}{uhhblue!50}
+\colorlet{notefrcolor}{uhhstone}
+% Item colors
+\colorlet{itemcolor}{uhhstone}
+
+% titlestyle		--------------------------------------------------------
+\definetitlestyle{SP}{%
+  width=\paperwidth, roundedcorners=0, linewidth=0pt, innersep=1.5cm,
+  titletotopverticalspace=0mm, titletoblockverticalspace=20mm,
+  titlegraphictotitledistance=10pt, titletextscale=1
+}{
+  \draw[draw=none, top color=white, bottom color=white]%
+    (\titleposleft,\titleposbottom) rectangle (\titleposright,\titlepostop); %
+}
+\usetitlestyle{SP}
+
+% backgroundstyle	--------------------------------------------------------
+\definebackgroundstyle{SP}{%
+  \draw[line width=0pt, bottom color=uhhstone!10, top color=uhhstone!10]
+    (bottomleft) rectangle (topright);
+}
+\usebackgroundstyle{SP}
+
+% blockstyle		--------------------------------------------------------
+\defineblockstyle{SP}{
+  titlewidthscale=1, bodywidthscale=1, titleleft,
+  titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=0pt, bodyoffsety=0pt,
+  bodyverticalshift=0pt, linewidth=0pt, titleinnersep=1cm, bodyinnersep=1cm
+}{
+  \ifBlockHasTitle%
+    \draw[draw=none, fill=blocktitlebgcolor]
+      (blocktitle.south west) rectangle (blocktitle.north east);
+    \fi%
+    \draw[draw=none, fill=blockbodybgcolor]
+      (blockbody.south west) rectangle (blockbody.north east);
+}
+\useblockstyle{SP}
+
+% innerblockstyle	--------------------------------------------------------
+\defineinnerblockstyle{SP}{
+  titlewidthscale=1, bodywidthscale=1, titleleft,
+  titleoffsetx=0pt, titleoffsety=0pt, bodyoffsetx=0pt, bodyoffsety=0pt,
+  bodyverticalshift=0pt, linewidth=0pt, titleinnersep=10pt, bodyinnersep=10pt
+}{
+  \ifInnerblockHasTitle%
+    \draw[line width=4pt, color=innerblocktitlebgcolor,
+      fill=innerblocktitlebgcolor]
+      (innerblocktitle.south west) rectangle (innerblocktitle.north east);
+  \fi%
+  \draw[line width=4pt, color=innerblocktitlebgcolor,
+    fill=innerblockbodybgcolor]
+    (innerblockbody.south west) rectangle (innerblockbody.north east);
+}
+\useinnerblockstyle{SP}
+
+% notestyle		--------------------------------------------------------
+\definenotestyle{SP}{
+  targetoffsetx=0pt, targetoffsety=0pt, angle=0, radius=8cm, width=8cm,
+  connection=false, rotate=0, linewidth=1pt, innersep=1cm
+}{
+  \ifNoteHasConnection						% callout note
+    \begin{scope}[opacity=0.3]					% the shadow
+      \begin{pgftransparencygroup}
+	\coordinate (shadowshift) at (0.2cm,-0.2cm);
+	\fill
+	  ($(notetarget)+(shadowshift)$) --
+	  ($(notetarget)!1!4:(notecenter.center)+(shadowshift)$) --
+	  ($(notetarget)!1!-4:(notecenter.center)+(shadowshift)$) -- cycle;
+	\fill
+	  ($(notecenter.south west)+(shadowshift)$) --
+	  ($(notecenter.north west)+(shadowshift)$) --
+	  ($(notecenter.north east)+(shadowshift)$) --
+	  ($(notecenter.south east)+(shadowshift)$) -- cycle;
+      \end{pgftransparencygroup}
+    \end{scope}
+    % the main drawing
+    \draw[color=notefrcolor, line width=\notelinewidth*2]	% the border
+      (notetarget) -- ($(notetarget)!1!4:(notecenter.center)$) --
+      ($(notetarget)!1!-4:(notecenter.center)$) -- cycle;
+    \draw[color=notefrcolor, line width=\notelinewidth*2]
+      (notecenter.south west) -- (notecenter.north west) --
+      (notecenter.north east) -- (notecenter.south east) -- cycle;
+    \begin{scope}						% the filling
+      \node[fit=(notetarget)(notecenter.south west)(notecenter.south east)
+	(notecenter.north east) (notecenter.north west), inner sep=+0pt]
+	(box) {};%
+      \clip
+	(notetarget) -- ($(notetarget)!1!4:(notecenter.center)$) --
+	($(notetarget)!1!-4:(notecenter.center)$) -- cycle
+	(notecenter.south west) -- (notecenter.north west) --
+	(notecenter.north east) -- (notecenter.south east) -- cycle;
+      \draw[draw=none, color=notefrcolor, fill=notebgcolor]
+	(box.south west) rectangle (box.north east);
+    \end{scope}
+  \else								% simple note
+    \begin{scope}[rounded corners=25pt, drop shadow={shadow xshift=0.2cm, shadow yshift=-0.2cm,
+      opacity=0}]
+      \draw[line width=\notelinewidth, color=notefrcolor, fill=notebgcolor,
+          drop shadow={opacity=0.3}]
+	(notecenter.south west) -- (notecenter.north west) --
+	(notecenter.north east) -- (notecenter.south east) -- cycle;
+    \end{scope}
+  \fi
+}
+\usenotestyle{SP}
+
+% font setup		--------------------------------------------------------
+% -->	use modified tikzposter.cls with \attr... commands	----------------
+\newcommand{\attrTitle}{\Huge\sc\sffamily\bfseries}
+\newcommand{\attrAuthor}{\huge\sffamily}
+\newcommand{\attrInstitute}{\large\sffamily}
+\newcommand{\attrEmail}{\large\ttfamily}
+\newcommand{\attrBlocktitle}{\LARGE\sffamily\bfseries}
+\newcommand{\attrInnerblocktitle}{\sffamily\bfseries}
+
+% fonts
+\renewcommand{\sfdefault}{lmss}	% Latin Modern
+\renewcommand{\ttdefault}{lmtt}		% Latin Modern
+\renewcommand{\rmdefault}{ppl}	% Palatino
+
+% font size for bibliography
+\renewcommand*{\bibfont}{\scriptsize}
+\DeclareFieldFormat{labelnumberwidth}{{\scriptsize [#1]}}
+
+\def\email#1{\gdef\@email{#1}}
+\def\@email{}
+\newlength{\titleH}
+
+% maketitle		--------------------------------------------------------
+\makeatletter
+\renewcommand\TP@maketitle{%
+    \begin{minipage}{\linewidth}
+        \centering%
+        \color{titlefgcolor}%
+        {\attrTitle\@title\par}
+    \end{minipage}\\[1ex]
+        \ifx\@email\empty\setlength{\titleH}{80mm}%
+        \else\setlength{\titleH}{95mm}%
+        \fi%
+        \begin{minipage}[b]{0.21\linewidth}
+            \includegraphics[height=50mm]{theme/logo_uhh}%
+        \end{minipage}%
+        \hfill%
+        \begin{minipage}[b]{0.579\linewidth}
+            \centering%
+            \ifx\@email\empty%
+            {\attrAuthor\@author\par}%
+            \else%
+            {\attrAuthor\@author\\\attrEmail\@email\par}%
+            \fi%
+            \vspace*{1em}%
+            {\attrInstitute\@institute}
+        \end{minipage}%
+        \hfill%
+        \begin{minipage}[b]{0.21\linewidth}
+            \hfill\includegraphics[height=50mm]{theme/logo_sp_stone}
+        \end{minipage}%
+}
+\makeatother
+
+%\institute{Universität Hamburg, Fachbereich Informatik, TAMS}
+%\titlegraphic{\includegraphics[height=50mm]{UHH-logo}\hfill%
+%	\includegraphics[height=50mm]{TAMS-icon}}
+
+% itemize/enumerate	--------------------------------------------------------
+% \labelitemi	=> \textbullet
+% \labelitemii	=> \normalfont\bfseries\textendash
+% \labelitemiii	=> \textasteriskcentered
+% \labelitemiv	=> \textperiodcentered
+\renewcommand{\labelitemi}{\raisebox{0.25ex}{\resizebox{0.6em}{1ex}{$\color{itemcolor}\blacksquare$}}}
+\renewcommand{\labelitemii}{\raisebox{0.25ex}{\resizebox{0.5em}{0.83ex}{$\color{itemcolor}\blacktriangleright$}}}
+\renewcommand{\labelitemiii}{\raisebox{0.25ex}{\resizebox{0.5em}{0.83ex}{$\color{itemcolor}\triangleright$}}}
+\renewcommand{\labelitemiv}{\raisebox{0.25ex}{\resizebox{0.5em}{0.83ex}{$\color{itemcolor}>$}}}
+% \labelenumi	=> \theenumi.	-Default is arabic: 1.
+% \labelenumii	=> (\theenumii)	-Default is alph:   (a)
+% \labelenumiii	=> \theenumiii.	-Default is roman:  i.
+% \labelenumiv	=> \theenumiv.	-Default is Alph:   A.
+\renewcommand\labelenumi{\color{itemcolor}\sffamily\theenumi.}
+\renewcommand\labelenumii{\color{itemcolor}\sffamily\theenumii.}
+\renewcommand\labelenumiii{\color{itemcolor}\sffamily\theenumiii.}
+\renewcommand\labelenumiv{\color{itemcolor}\sffamily\arabic{enumiv})}
+
+% misc			--------------------------------------------------------
+\newcommand{\alert}[1]{%
+  \color{itemcolor}#1
+}
+
+\tikzposterlatexaffectionproofoff
+%-----------------------------------------------------------------------------
+% uhhPoster.sty -- end

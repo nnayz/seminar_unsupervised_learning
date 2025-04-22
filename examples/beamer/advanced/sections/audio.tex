@@ -1,0 +1,25 @@
+\section{Audio}
+
+\sectionPage{Audio}
+
+\begin{frame}[c, fragile]{Audio}
+    \begin{itemize}
+        \item Play some sound: \spaudio{audioexamples/timit.mp3} 
+        \item Realized using \verb|\spaudio{audioexamples/timit.mp3}|
+        \item Switch for Acrobat Reader in beamersp2017.sty \verb|\usepackage[acrobat]{beamersp2017}|
+        \begin{itemize}
+         \item Note that acrobat reader can only play mp3 (not wav)
+         \begin{verbatim}
+# convert wav to mp3
+for i in *.wav; do
+ if [ -e "$i" ]; then
+   file=`basename "$i" .wav`
+   lame -h -b 192 "$i" "$file.mp3"
+ fi
+done
+\end{verbatim}
+
+        \end{itemize}
+
+    \end{itemize}
+\end{frame}

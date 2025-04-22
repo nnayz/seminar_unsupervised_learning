@@ -1,0 +1,21 @@
+\section{Citations}
+
+\sectionPage{Citations}
+
+\begin{frame}[c]{Citations\spcite{gerkmann_bayesian_2014}}
+    \begin{itemize}
+        \item Another citation \spcite{breithaupt_parameterized_2008}
+        \item Using \texttt{$\backslash$spcite} ensures that citation numbers stay fixed across \spcite{gerkmann_bayesian_2014} 
+        \item \texttt{$\backslash$spciten} cites without printing footer (don't use unless needed) \spciten{gerkmann_improved_2008}
+        \item \fbox{\begin{minipage}{0.4\textwidth}
+        Also working in minipages and column layout\spcite{breithaupt_parameterized_2008}
+        \end{minipage}}
+    \end{itemize}
+\end{frame}    
+    
+\begin{frame}{Citations}
+\begin{itemize}
+        \item Bibliography can be included on any slide using \texttt{$\backslash$printbibliography}
+\end{itemize}
+    \printbibliography%
+\end{frame}

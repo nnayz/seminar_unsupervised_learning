@@ -1,0 +1,39 @@
+# use docker image with latex preinstalled
+# since there is no official latex image, use https://github.com/blang/latex-docker
+# possible alternative: https://github.com/natlownes/docker-latex
+image: blang/latex
+
+before_script:
+  - apt-get update
+  - apt-get install -y biber
+  - kpsewhich -var-value=TEXMFHOME
+  - ./install.sh
+
+beamer_minimal:
+  script: 
+    - cd examples/beamer/minimal
+    - latexmk -pdf -shell-escape beamersp_minimal.tex
+  artifacts:
+    paths: 
+      - examples/beamer/minimal/beamersp_minimal.pdf
+
+poster:
+  script: 
+    - cd examples/poster
+    - latexmk -pdf -shell-escape postersp.tex
+  artifacts:
+    paths: 
+      - examples/poster/postersp.pdf
+
+installer:
+  script:
+    - cd .
+  artifacts:
+    paths: 
+      - beamersp.sty
+      - postersp.sty
+      - sharedsp.sty
+      - install.sh
+      - README.md
+      - theme/*
+      - imagesc.py
