@@ -16,6 +16,7 @@ _Note_: If you have downloaded the templates as a packaged `zip` file you do not
 The installation script is dumb and assumes you have a working LaTeX installation. You might need to install `biber` (e.g. `sudo apt install biber`) before proceeding.
 Clone the repository and run the installation script: 
 ```
+git remote set-url origin https://git.informatik.uni-hamburg.de/4huda/latex-templates.git
 git clone https://git.informatik.uni-hamburg.de/4huda/latex-templates.git
 cd latex-templates
 ./install.sh
@@ -26,6 +27,7 @@ This should install all relevant files into a location recognizeable by your LaT
 The following instructions assume you have git (and git-bash) installed, as well as either TeXLive or MiKTex.
 In git-bash, run:
 ```
+git remote set-url origin https://git.informatik.uni-hamburg.de/4huda/latex-templates.git
 git clone https://git.informatik.uni-hamburg.de/4huda/latex-templates.git
 cd latex-templates
 ./install.sh
